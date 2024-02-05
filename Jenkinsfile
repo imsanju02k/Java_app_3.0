@@ -44,6 +44,15 @@ pipeline{
                }
             }
         }
+         stage('JFrog Integration'){
+            steps{
+               script{
+
+                   sh 'echo "This is jfrog stage creation" '
+                  
+               }
+            }
+        }
         stage('Static code analysis: Sonarqube'){
          when { expression {  params.action == 'create' } }
             steps{
