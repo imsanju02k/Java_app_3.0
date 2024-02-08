@@ -48,7 +48,11 @@ pipeline{
             steps{
                script{
 
-                   sh 'echo "This is jfrog stage creation" '
+                   jFrogPush()
+
+                   sh """
+                    curl -X PUT -u $USER:$PASS -T /path/to/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar  http://<EC2IP>:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar
+                    """
                   
                }
             }
