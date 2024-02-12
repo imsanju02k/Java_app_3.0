@@ -76,26 +76,26 @@ pipeline{
             }
         }
 
-        stage ('Pushing with python to Jfrog dashboard'){
-          when { expression {  params.action == 'create' } }
-          steps{
-            script{
-                jfrogPush()
-                }
-            }
-        }
-
-
-
-        // stage ('Pushing Jfrog File'){
+        // stage ('Pushing with python to Jfrog dashboard'){
         //   when { expression {  params.action == 'create' } }
         //   steps{
         //     script{
-        //          //sh 'curl-X PUT -u admin:password -T /var/lib/jenkins/workspace/jfrogwithpython/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar  http://43.204.234.240:8082/artifactory/example-repo-local/'
-        //          sh 'curl -X PUT -u admin:password -T  /var/lib/jenkins/workspace/jfrogwithpython/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar "http://43.204.234.240:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"'
+        //         jfrogPush()
         //         }
         //     }
         // }
+
+
+
+        stage ('Pushing Jfrog File'){
+          when { expression {  params.action == 'create' } }
+          steps{
+            script{
+                 //sh 'curl-X PUT -u admin:password -T /var/lib/jenkins/workspace/jfrogwithpython/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar  http://43.204.234.240:8082/artifactory/example-repo-local/'
+                 sh 'curl -X PUT -u admin:password -T  /var/lib/jenkins/workspace/jfrogwithpython/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar "http://43.204.234.240:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"'
+                }
+            }
+        }
     
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
