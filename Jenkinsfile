@@ -74,15 +74,7 @@ pipeline{
                }
             }
         }
-        stage('JFrog Integration with Python'){
-            when { expression {  params.action == 'create' } }
-            steps{
-               script{
-
-                   jfrogPush()
-               }
-            }
-        }
+    
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
@@ -99,6 +91,15 @@ pipeline{
                    
                    dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
+            }
+        }
+
+        stage ('Pushing Jfrog File'){
+          when { expression {  params.action == 'create' } }
+          steps{
+            script{
+                 sh 'curl -X PUT -u admin:password -T  /var/lib/jenkins/workspace/java-3.0/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar "http://43.204.234.240:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"'
+                }
             }
         }
         stage('Docker Image Push : DockerHub '){
