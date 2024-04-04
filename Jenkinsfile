@@ -8,9 +8,9 @@ pipeline{
     parameters{
 
         choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
-        string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javapp')
+        string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javaapp')
         string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
-        string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'praveensingam1994')
+        string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'sanjayshetty2k')
     }
 
     stages{
@@ -20,7 +20,7 @@ pipeline{
             steps{
             gitCheckout(
                 branch: "main",
-                url: "https://github.com/praveen1994dec/Java_app_3.0.git"
+                url: "https://github.com/imsanju02k/Java_app_3.0.git"
             )
             }
         }
@@ -87,15 +87,15 @@ pipeline{
 
 
 
-        stage ('Pushing Jfrog File'){
-          when { expression {  params.action == 'create' } }
-          steps{
-            script{
+        // stage ('Pushing Jfrog File'){
+        //   when { expression {  params.action == 'create' } }
+        //   steps{
+        //     script{
                 
-                 sh 'curl -X PUT -u admin:password -T  /var/lib/jenkins/workspace/jfrogwithpython/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar "http://43.204.234.240:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"'
-                }
-            }
-        }
+        //          sh 'curl -X PUT -u admin:password -T  /var/lib/jenkins/workspace/jfrogwithpython/target/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar "http://43.204.234.240:8082/artifactory/example-repo-local/kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar"'
+        //         }
+        //     }
+        // }
     
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
